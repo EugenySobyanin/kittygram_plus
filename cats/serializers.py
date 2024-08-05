@@ -8,11 +8,14 @@ from .models import Achievement, AchievementCat, Cat, Owner, CHOICES
 
 
 class Hex2NameColor(serializers.Field):
+    # собственный тип поля для сериализатора
     
     def to_representation(self, value):
+        # для чтения
         return value
     
     def to_internal_value(self, data):
+        # для записи
         try:
             # Если имя цвета существует, то конвертируем код в название
             data = webcolors.hex_to_name(data)
@@ -23,7 +26,7 @@ class Hex2NameColor(serializers.Field):
 
 
 class AchievementSerializer(serializers.ModelSerializer):
-    achievement_name = serializers.CharField(source='name')
+    achievement_name = serializers.CharField(source='name') # поле переопределено для изменения названия поля
 
     class Meta:
         model = Achievement
@@ -31,7 +34,7 @@ class AchievementSerializer(serializers.ModelSerializer):
         
 
 class CatListSerializer(serializers.ModelSerializer):
-    color = serializers.ChoiceField(choices=CHOICES)
+    color = serializers.ChoiceField(choices=CHOICES) # поле для значения из списка
     
     class Meta:
         model = Cat
